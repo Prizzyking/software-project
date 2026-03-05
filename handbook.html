@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handbook – Software Engineering | Chrisland University</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Inter", sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background-color: #f9fafc;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        :root {
+            --primary: #1A2B4C;
+            --secondary: #F59E0B;
+            --accent: #06B6D4;
+            --accent-light: #f0f9ff;
+            --gray-light: #e2e8f0;
+            --text-dark: #1e293b;
+            --text-light: #475569;
+            --gradient-start: #1A2B4C;
+            --gradient-end: #2C3E6B;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header with hide on scroll */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .header-hidden {
+            transform: translateY(-100%);
+        }
+        .header-flex {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .logo-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+        .logo-container img {
+            height: 50px;
+            width: auto;
+            border-radius: 4px;
+        }
+        .logo-text h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-top: -2px;
+        }
+        .logo-text span {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--secondary);
+            display: block;
+            letter-spacing: 0.5px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.2rem;
+            font-weight: 500;
+            margin-top: 0.3rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary);
+        }
+        .hamburger {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            margin-top: 0.3rem;
+        }
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 1.2rem;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary);
+                padding: 2rem;
+                border-top: 1px solid #2C3E6B;
+                margin-top: 0;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a::after { display: none; }
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: 5rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .footer-logo img {
+            height: 40px;
+            width: auto;
+            border-radius: 4px;
+        }
+        .footer-logo h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .footer-logo span {
+            font-size: 0.75rem;
+            color: var(--secondary);
+            display: block;
+        }
+        .footer-col p, .footer-col a {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: block;
+            margin: 0.5rem 0;
+        }
+        .footer-col a:hover { color: var(--secondary); }
+        .footer-col i { margin-right: 0.5rem; color: var(--secondary); }
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #2C3E6B;
+            color: #94a3b8;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: var(--primary);
+            font-weight: 600;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: white;
+        }
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        /* Handbook Hero */
+        .handbook-hero {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)), url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        .handbook-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+        .handbook-hero .highlight {
+            color: var(--secondary);
+        }
+        .handbook-hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section titles */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* Stats bar */
+        .stats-bar {
+            background: white;
+            padding: 3rem 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.02);
+        }
+        .stats-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        .stat-item {
+            text-align: center;
+            min-width: 150px;
+        }
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            line-height: 1.2;
+        }
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Cards for policies */
+        .handbook-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .policy-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border: 1px solid rgba(6,182,212,0.1);
+        }
+        .policy-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 40px rgba(245,158,11,0.1);
+        }
+        .policy-icon {
+            font-size: 2.8rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .policy-card h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        .policy-card p {
+            color: var(--text-light);
+        }
+
+        /* Two column layout for extra policies */
+        .extra-policies {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .extra-card {
+            background: var(--accent-light);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+        }
+        .extra-card h3 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        .extra-card p {
+            color: var(--text-light);
+            margin-bottom: 0.8rem;
+        }
+        .extra-card i {
+            color: var(--secondary);
+            margin-right: 0.5rem;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 40px;
+            max-width: 500px;
+            width: 90%;
+            padding: 2.5rem;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.2);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.8rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+        .close-modal:hover {
+            color: var(--secondary);
+        }
+        .hod-profile {
+            text-align: center;
+        }
+        .hod-profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+        .hod-profile h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .hod-profile .hod-title {
+            font-size: 1.2rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .hod-details {
+            text-align: left;
+            margin-top: 1.5rem;
+        }
+        .hod-details p {
+            margin: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+        }
+        .hod-details i {
+            width: 30px;
+            color: var(--secondary);
+            font-size: 1.3rem;
+        }
+        .modal-footer {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+            border-radius: 40px;
+            margin: 4rem 0;
+        }
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .cta-section .highlight {
+            color: var(--secondary);
+        }
+        .cta-section p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .handbook-hero h1 {
+                font-size: 2.5rem;
+            }
+            .modal-content {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="mainHeader">
+        <div class="container header-flex">
+            <div class="logo-container">
+                <img src="pictures/chrisland logo.jpeg" alt="Chrisland University Logo">
+                <div class="logo-text">
+                    <h1>Chrisland University</h1>
+                    <span>Software Engineering</span>
+                </div>
+            </div>
+            <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="programs.html">Programs</a>
+                <a href="admission.html">Admission</a>
+                <a href="handbook.html" class="active">Handbook</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="handbook-hero">
+            <div class="container">
+                <h1>Student <span class="highlight">Handbook</span></h1>
+                <p>Your guide to policies, procedures, and academic life.</p>
+            </div>
+        </section>
+
+        <section class="stats-bar">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">80%</div>
+                        <div class="stat-label">Attendance Required</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">40%</div>
+                        <div class="stat-label">Pass Mark</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1.50</div>
+                        <div class="stat-label">Min. CGPA</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">Max Units/Sem</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0;">
+            <div class="container">
+                <h2 class="section-title">Key Policies at a Glance</h2>
+                <p class="section-subtitle">Essential rules and guidelines for every student.</p>
+                <div class="handbook-grid">
+                    <div class="policy-card">
+                        <div class="policy-icon"><i class="fas fa-tshirt"></i></div>
+                        <h3>Dress Code</h3>
+                        <p><strong>Corporate dressing</strong> required outside halls. Female: skirts below knees, no transparent/ tight. Male: trousers (not jeans), shirt and tie, no muscle tops/earrings, hair short.</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon"><i class="fas fa-file-alt"></i></div>
+                        <h3>Examination Rules</h3>
+                        <p>80% attendance mandatory. No GSM or unauthorized materials. Possession of incriminating material leads to expulsion. Late entry not allowed after 30 mins.</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon"><i class="fas fa-calculator"></i></div>
+                        <h3>Grading System</h3>
+                        <p>Pass mark 40%. GPA < 1.50 triggers probation. Two consecutive semesters GPA < 1.50 → withdrawal. Grade points: A=5, B=4, C=3, D=2, E=1, F=0.</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon"><i class="fas fa-book"></i></div>
+                        <h3>Library & Health</h3>
+                        <p>Mandatory library registration. Keep quiet, no food. Health centre registration required; medical reports endorsed by Director.</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <h3>Registration</h3>
+                        <p>Complete within prescribed period. Late registration with penalty up to 4th week. No registration after matriculation.</p>
+                    </div>
+                    <div class="policy-card">
+                        <div class="policy-icon"><i class="fas fa-gavel"></i></div>
+                        <h3>Misconduct</h3>
+                        <p>Sanctions for exam malpractice range from reprimand to expulsion. Offences include smuggling notes, GSM in hall, impersonation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="background: var(--accent-light); padding: 4rem 0;">
+            <div class="container">
+                <h2 class="section-title">Important Policies</h2>
+                <div class="extra-policies">
+                    <div class="extra-card">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Probation & Withdrawal</h3>
+                        <p><i class="fas fa-check-circle"></i> GPA < 1.50 → probation; CGPA < 1.50 in two consecutive semesters → withdrawal.</p>
+                        <p><i class="fas fa-check-circle"></i> Course load: Min 15, max 24 units per semester.</p>
+                    </div>
+                    <div class="extra-card">
+                        <h3><i class="fas fa-user-graduate"></i> Matriculation & Transfer</h3>
+                        <p><i class="fas fa-check-circle"></i> Compulsory oath taking and signing register.</p>
+                        <p><i class="fas fa-check-circle"></i> Transfer only once, maximum 200 level.</p>
+                    </div>
+                    <div class="extra-card">
+                        <h3><i class="fas fa-clock"></i> Attendance</h3>
+                        <p><i class="fas fa-check-circle"></i> 80% lecture attendance mandatory to sit for exams.</p>
+                        <p><i class="fas fa-check-circle"></i> Absence of three weeks without permission leads to withdrawal.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Stay <span class="highlight">informed</span></h2>
+                <p>Download the full handbook or contact the department for any questions.</p>
+                <a href="handbook.pdf" download class="btn">Download PDF</a>
+                <a href="#" onclick="openHODModal(); return false;" class="btn btn-outline" style="margin-left:1rem;">Contact HOD</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- HOD Modal -->
+    <div id="hodModal" class="modal" onclick="closeModalOutside(event)">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeHODModal()">&times;</span>
+            <div class="hod-profile">
+                <img src="pictures/hod.jpeg" alt="Prof. Isaac Odun-Ayo">
+                <h2>Prof. Isaac A. Odun-Ayo</h2>
+                <div class="hod-title">Head of Department, Software Engineering</div>
+                <div class="hod-details">
+                    <p><i class="fas fa-envelope"></i> linkedin.com/in/isaac-odun-ayo-43b16b15b</p>
+                    <p><i class="fas fa-phone-alt"></i> +234 8028829456</p>
+                    <p><i class="fas fa-map-marker-alt"></i>Lb 401 beside the hod of english.</p>
+                    <p><i class="fas fa-clock"></i> Office Hours: Mon–Fri, 10am–3pm</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" onclick="closeHODModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <img src="pictures/chrisland logo.jpeg" alt="Chrisland University Logo">
+                        <div>
+                            <h3>Chrisland University</h3>
+                            <span>Software Engineering</span>
+                        </div>
+                    </div>
+                    <p><i class="fas fa-map-marker-alt"></i> Abeokuta, Ogun State, Nigeria</p>
+                    <p><i class="fas fa-phone"></i> 08135762586, 08023364530, 09035166582</p>
+                    <p><i class="fas fa-envelope"></i>info@chrislanduniversity.edu.ng</p>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: white; margin-bottom: 1rem;">Quick Links</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="programs.html">Academic Programs</a>
+                    <a href="admission.html">Admissions</a>
+                    <a href="handbook.html">Student Handbook</a>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: white; margin-bottom: 1rem;">Follow Us</h4>
+                    <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
+                    <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Chrisland University. All rights reserved. Software Engineering Department.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Modal functions
+        function openHODModal() {
+            document.getElementById('hodModal').classList.add('show');
+        }
+        function closeHODModal() {
+            document.getElementById('hodModal').classList.remove('show');
+        }
+        function closeModalOutside(event) {
+            if (event.target.classList.contains('modal')) {
+                closeHODModal();
+            }
+        }
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeHODModal();
+            }
+        });
+
+        // Header hide on scroll
+        let lastScrollTop = 0;
+        const header = document.getElementById('mainHeader');
+        const scrollThreshold = 10;
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (Math.abs(scrollTop - lastScrollTop) <= scrollThreshold) return;
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                header.classList.add('header-hidden');
+            } else {
+                header.classList.remove('header-hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrisland University | Software Engineering</title>
+    <!-- Font Awesome 6 & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Inter", sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background-color: #f9fafc;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Color palette */
+        :root {
+            --primary: #1A2B4C;
+            --secondary: #F59E0B;
+            --accent: #06B6D4;
+            --accent-light: #f0f9ff;
+            --gray-light: #e2e8f0;
+            --text-dark: #1e293b;
+            --text-light: #475569;
+            --gradient-start: #1A2B4C;
+            --gradient-end: #2C3E6B;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header with hide on scroll - logo top left */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .header-hidden {
+            transform: translateY(-100%);
+        }
+        .header-flex {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .logo-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+        .logo-container img {
+            height: 50px;
+            width: auto;
+            border-radius: 4px;
+        }
+        .logo-text h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-top: -2px;
+            color: white;
+        }
+        .logo-text span {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--secondary);
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        /* Captivating navigation */
+        .nav-links {
+            display: flex;
+            gap: 2.2rem;
+            font-weight: 500;
+            margin-top: 0.3rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary);
+            text-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+        }
+        .hamburger {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            margin-top: 0.3rem;
+        }
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 1.2rem;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary);
+                padding: 2rem;
+                border-top: 1px solid #2C3E6B;
+                margin-top: 0;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a::after { display: none; }
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: 5rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .footer-logo img {
+            height: 40px;
+            width: auto;
+            border-radius: 4px;
+        }
+        .footer-logo h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+        }
+        .footer-logo span {
+            font-size: 0.75rem;
+            color: var(--secondary);
+            display: block;
+        }
+        .footer-col p, .footer-col a {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: block;
+            margin: 0.5rem 0;
+        }
+        .footer-col a:hover { color: var(--secondary); }
+        .footer-col i { margin-right: 0.5rem; color: var(--secondary); }
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #2C3E6B;
+            color: #94a3b8;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: var(--primary);
+            font-weight: 600;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: white;
+        }
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            color: white;
+            padding: 6rem 0;
+            overflow: hidden;
+        }
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            animation: slideInLeft 1s ease;
+        }
+        .hero-content .highlight {
+            color: var(--secondary);
+        }
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: slideInLeft 1s ease 0.2s both;
+        }
+        .hero-buttons {
+            animation: slideInLeft 1s ease 0.4s both;
+        }
+        .hero-image {
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            animation: slideInRight 1s ease;
+        }
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Quick Facts */
+        .quick-facts {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            padding: 4rem 0;
+            margin: 2rem 0;
+            border-radius: 60px 60px 0 0;
+            box-shadow: 0 -20px 30px rgba(0,0,0,0.03), 0 20px 30px rgba(0,0,0,0.03);
+        }
+        .quick-facts .section-title {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .quick-facts .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+        .facts-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .fact-item {
+            background: white;
+            border-radius: 40px;
+            padding: 2rem 2rem;
+            text-align: center;
+            flex: 1 1 180px;
+            box-shadow: 0 20px 30px rgba(26,43,76,0.05);
+            border: 1px solid rgba(6,182,212,0.1);
+            transition: transform 0.3s;
+        }
+        .fact-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 40px rgba(245,158,11,0.1);
+        }
+        .fact-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .fact-number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            line-height: 1.2;
+        }
+        .fact-label {
+            font-size: 1rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* Section titles */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* Cards grid (general) */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.03);
+            text-align: center;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 40px rgba(26, 43, 76, 0.1);
+        }
+        .card-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1.2rem;
+        }
+        .card h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* Portal Updates specific */
+        .update-item {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            border-left: 5px solid var(--secondary);
+            transition: transform 0.3s;
+        }
+        .update-item:hover {
+            transform: translateX(5px);
+        }
+        .update-date {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        .update-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+        .update-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Testimonials */
+        .testimonial-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(6,182,212,0.1);
+            transition: transform 0.3s;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 40px rgba(245,158,11,0.1);
+        }
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .testimonial-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary);
+        }
+        .testimonial-name h4 {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        .testimonial-name p {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+        .testimonial-text {
+            color: var(--text-light);
+            font-style: italic;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .testimonial-text i {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -0.3rem;
+            opacity: 0.5;
+        }
+
+        /* Feature grid for labs */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            align-items: center;
+        }
+        .img-placeholder {
+            width: 100%;
+            height: 250px;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+        .img-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* CTA section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            text-align: center;
+            padding: 5rem 0;
+            margin-top: 3rem;
+        }
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .cta-section .highlight {
+            color: var(--secondary);
+        }
+        .cta-section p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 40px;
+            max-width: 550px;
+            width: 90%;
+            padding: 2.5rem;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.2);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.8rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+        .close-modal:hover {
+            color: var(--secondary);
+        }
+        .contact-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .contact-header h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .contact-header p {
+            color: var(--text-light);
+        }
+        .contact-details {
+            margin-bottom: 2rem;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.2rem 0;
+            color: var(--text-dark);
+        }
+        .contact-item i {
+            width: 30px;
+            color: var(--secondary);
+            font-size: 1.3rem;
+            text-align: center;
+        }
+        .contact-item span {
+            flex: 1;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0 1rem;
+        }
+        .social-icons a {
+            color: var(--primary);
+            background: var(--accent-light);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .social-icons a:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateY(-3px);
+        }
+        .modal-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-image {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="mainHeader">
+        <div class="container header-flex">
+            <div class="logo-container">
+                <img src="pictures/chrisland logo.jpeg" alt="Chrisland University Logo">
+                <div class="logo-text">
+                    <h1>Chrisland University</h1>
+                    <span>Software Engineering</span>
+                </div>
+            </div>
+            <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html" class="active">Home</a>
+                <a href="about.html">About</a>
+                <a href="programs.html">Programs</a>
+                <a href="admission.html">Admission</a>
+                <a href="handbook.html">Handbook</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Welcome to <span class="highlight">Software Engineering</span></h1>
+                    <p>Department of Computer Sciences, Chrisland University, Abeokuta where innovation meets integrity.</p>
+                    <div class="hero-buttons">
+                        <a href="https://chrislanduniversity.edu.ng/" target="_blank" class="btn">Apply Now <i class="fas fa-arrow-right"></i></a>
+                        <a href="#" onclick="openContactModal(); return false;" class="btn btn-outline">Contact Us</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="pictures/chrisland uni.jpeg" alt="Students collaborating">
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Facts -->
+        <section class="quick-facts">
+            <div class="container">
+                <h2 class="section-title">Quick Facts</h2>
+                <div class="facts-grid">
+                    <div class="fact-item">
+                        <div class="fact-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="fact-number">144</div>
+                        <div class="fact-label">Min. Credits (UTME)</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-icon"><i class="fas fa-book-open"></i></div>
+                        <div class="fact-number">108</div>
+                        <div class="fact-label">Direct Entry Credits</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-icon"><i class="fas fa-layer-group"></i></div>
+                        <div class="fact-number">24</div>
+                        <div class="fact-label">Max Units/Semester</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="fact-number">40%</div>
+                        <div class="fact-label">Pass Mark</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission / Vision / Philosophy Cards -->
+        <section style="padding: 5rem 0;">
+            <div class="container">
+                <h2 class="section-title">Shine Forth The Light</h2>
+                <p class="section-subtitle">Empowering the next generation of software innovators with ethical, research-driven education.</p>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+                        <h3>Our Mission</h3>
+                        <p>Stimulate sustained interest in Software Engineering; train students with solid computing knowledge and skills for effective service; conduct research to advance the state of the art.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-eye"></i></div>
+                        <h3>Our Vision</h3>
+                        <p>To be the leading Department in Research and Teaching towards the economic growth of the nation through ICT.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-gem"></i></div>
+                        <h3>Philosophy</h3>
+                        <p>Produce graduates with high academic and ethical standards, practical exposure for self-employment and immediate value to industry.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chrisland Portal Updates -->
+        <section style="background: var(--accent-light); padding: 4rem 0;">
+            <div class="container">
+                <h2 class="section-title">📢 Chrisland Portal Updates</h2>
+                <p class="section-subtitle">Stay informed with the latest announcements and deadlines.</p>
+                <div class="card-grid">
+                    <div class="update-item">
+                        <div class="update-date">February 15, 2026</div>
+                        <div class="update-title">Course Registration Open</div>
+                        <div class="update-desc">Registration for the 2025/2026 first semester is now open until march 10.</div>
+                    </div>
+                    <div class="update-item">
+                        <div class="update-date">March 20, 2026</div>
+                        <div class="update-title">SIWES Briefing</div>
+                        <div class="update-desc">Mandatory orientation for 300-level students on march 20 at 10am.</div>
+                    </div>
+                    
+                    <div class="update-item">
+                        <div class="update-date">february 19, 2026</div>
+                        <div class="update-title">Matriculation Ceremony</div>
+                        <div class="update-desc">Fresh students' matriculation holds on February 19 2026. Dress code strictly enforced.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What Students Say (Testimonials) -->
+        <section style="padding: 4rem 0;">
+            <div class="container">
+                <h2 class="section-title">💬 What Our Students Say</h2>
+                <p class="section-subtitle">Real experiences from the Chrisland Software Engineering community.</p>
+                <div class="card-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <img class="testimonial-img" src="pictures/dicco.jpeg" alt="Student">
+                            <div class="testimonial-name">
+                                <h4>Kayode O.</h4>
+                                <p>400 Level</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-text">
+                            <i class="fas fa-quote-left"></i>
+                            The hands-on projects and industry connections prepared me for a job even before graduation. The faculty truly cares.
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <img class="testimonial-img" src="pictures/blessing.jpeg" alt="Student">
+                            <div class="testimonial-name">
+                                <h4>Blessing O.</h4>
+                                <p>Graduate 2025</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-text">
+                            <i class="fas fa-quote-left"></i>
+                            The curriculum is challenging but rewarding. I've already built two apps and contributed to open source.
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <img class="testimonial-img" src="pictures/tunmise.jpeg" alt="Student">
+                            <div class="testimonial-name">
+                                <h4>Tunmise. O.</h4>
+                                <p>Graduate 2025</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-text">
+                            <i class="fas fa-quote-left"></i>
+                            The SIWES internship landed me a job at a top tech firm. Grateful for the solid foundation.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Image & CTA -->
+        <section style="padding: 5rem 0;">
+            <div class="container">
+                <div class="feature-grid">
+                    <div>
+                        <h2 style="font-size: 2.2rem; color: var(--primary);">State-of-the-art Labs</h2>
+                        <p style="margin: 1.5rem 0; color: var(--text-light);">Our students have access to modern computing facilities, cloud environments, and software engineering tools to prepare them for global careers.</p>
+                        <a href="about.html" class="btn">Discover More</a>
+                    </div>
+                    <div class="img-placeholder">
+                        <img src="pictures/lab.jpeg" alt="Students in lab">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to <span class="highlight">Shine Forth?</span></h2>
+                <p>Join a community of innovators and become a leader in the digital world.</p>
+                <a href="https://chrislanduniversity.edu.ng/" target="_blank" class="btn">Apply Now</a>
+                <a href="#" onclick="openContactModal(); return false;" class="btn btn-outline">Contact Us</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal" onclick="closeModalOutside(event)">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeContactModal()">&times;</span>
+            <div class="contact-header">
+                <h2>Get in Touch</h2>
+                <p>We're here to help and answer any questions you might have.</p>
+            </div>
+            <div class="contact-details">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>PMB 110101, Chrisland University, Abeokuta, Ogun State</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>08135762586, 08023364530, 09035166582, 08179552479</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>chrislandadmin@chrislanduniversity.edu.ng</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@chrislanduniversity.edu.ng</span>
+                </div>
+            </div>
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeContactModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <img src="pictures/chrisland logo.jpeg" alt="Chrisland University Logo">
+                        <div>
+                            <h3>Chrisland University</h3>
+                            <span>Software Engineering</span>
+                        </div>
+                    </div>
+                    <p><i class="fas fa-map-marker-alt"></i> Abeokuta, Ogun State, Nigeria</p>
+                    <p><i class="fas fa-phone"></i> 08135762586, 08023364530, 09035166582</p>
+                    <p><i class="fas fa-envelope"></i>info@chrislanduniversity.edu.ng</p>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: white; margin-bottom: 1rem;">Quick Links</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="programs.html">Academic Programs</a>
+                    <a href="admission.html">Admissions</a>
+                    <a href="handbook.html">Student Handbook</a>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: white; margin-bottom: 1rem;">Follow Us</h4>
+                    <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
+                    <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Chrisland University. All rights reserved. Software Engineering Department.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Header hide on scroll
+        let lastScrollTop = 0;
+        const header = document.getElementById('mainHeader');
+        const scrollThreshold = 10;
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (Math.abs(scrollTop - lastScrollTop) <= scrollThreshold) return;
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                header.classList.add('header-hidden');
+            } else {
+                header.classList.remove('header-hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        // Modal functions
+        function openContactModal() {
+            document.getElementById('contactModal').classList.add('show');
+        }
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.remove('show');
+        }
+        function closeModalOutside(event) {
+            if (event.target.classList.contains('modal')) {
+                closeContactModal();
+            }
+        }
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeContactModal();
+            }
+        });
+    </script>
+</body>
+</html>

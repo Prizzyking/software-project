@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programs – Software Engineering | Chrisland University</title>
+    <!-- Font Awesome 6 & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Inter", sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background-color: #f9fafc;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Light color palette with vibrant gradients */
+        :root {
+            --primary: #1A2B4C;
+            --secondary: #F59E0B;
+            --accent: #06B6D4;
+            --accent-light: #f0f9ff;
+            --gray-light: #e2e8f0;
+            --text-dark: #1e293b;
+            --text-light: #475569;
+            --gradient-start: #1A2B4C;
+            --gradient-end: #2C3E6B;
+            --gradient-purple: linear-gradient(145deg, #8B5CF6, #6366F1);
+            --gradient-blue: linear-gradient(145deg, #06B6D4, #3B82F6);
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header with hide on scroll */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .header-hidden {
+            transform: translateY(-100%);
+        }
+        .header-flex {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .logo-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+        .logo-container img {
+            height: 50px;
+            width: auto;
+            border-radius: 4px;
+        }
+        .logo-text h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-top: -2px;
+            color: white;
+        }
+        .logo-text span {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--secondary);
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        /* Captivating navigation */
+        .nav-links {
+            display: flex;
+            gap: 2.2rem;
+            font-weight: 500;
+            margin-top: 0.3rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary);
+            text-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+        }
+        .hamburger {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            margin-top: 0.3rem;
+        }
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 1.2rem;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary);
+                padding: 2rem;
+                border-top: 1px solid #2C3E6B;
+                margin-top: 0;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a::after { display: none; }
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: 5rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .footer-logo img {
+            height: 40px;
+            width: auto;
+            border-radius: 4px;
+        }
+        .footer-logo h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+        }
+        .footer-logo span {
+            font-size: 0.75rem;
+            color: var(--secondary);
+            display: block;
+        }
+        .footer-col p, .footer-col a {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: block;
+            margin: 0.5rem 0;
+        }
+        .footer-col a:hover { color: var(--secondary); }
+        .footer-col i { margin-right: 0.5rem; color: var(--secondary); }
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #2C3E6B;
+            color: #94a3b8;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: var(--primary);
+            font-weight: 600;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: white;
+        }
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        /* Program Hero */
+        .program-hero {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)), url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        .program-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+        .program-hero .highlight {
+            color: var(--secondary);
+        }
+        .program-hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section titles */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* Program overview card */
+        .overview-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            margin: 3rem 0;
+            border: 1px solid rgba(6,182,212,0.1);
+        }
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        .overview-item {
+            padding: 1rem;
+        }
+        .overview-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .overview-item h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .overview-item p {
+            color: var(--text-light);
+        }
+
+        /* Tabs container */
+        .tabs-container {
+            background: white;
+            border-radius: 40px;
+            padding: 2rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            margin: 2rem 0 4rem;
+            border: 1px solid rgba(6,182,212,0.1);
+        }
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .tab-btn {
+            background: var(--gray-light);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-dark);
+        }
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        .tab-btn:hover:not(.active) {
+            background: var(--accent-light);
+            color: var(--primary);
+        }
+
+        /* Tab panes with fade transition */
+        .tab-pane {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+            height: 0;
+            overflow: hidden;
+        }
+        .tab-pane.active {
+            opacity: 1;
+            visibility: visible;
+            height: auto;
+            overflow: visible;
+        }
+
+        /* Semester blocks */
+        .semester-block {
+            margin-bottom: 3rem;
+        }
+        .semester-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .semester-title i {
+            color: var(--accent);
+            font-size: 2.2rem;
+        }
+
+        /* Enhanced Course card grid - vibrant gradients */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            border: 1px solid rgba(6,182,212,0.1);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            transition: height 0.3s ease;
+        }
+        .course-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 40px rgba(245,158,11,0.2);
+            border-color: var(--secondary);
+        }
+        .course-card:hover::before {
+            height: 8px;
+        }
+        .course-code {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 0.3rem;
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+            letter-spacing: 0.5px;
+        }
+        .course-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+        .course-units {
+            font-size: 0.95rem;
+            color: var(--accent);
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+        .course-units i {
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+        .total-card {
+            background: var(--accent-light);
+            border-radius: 20px;
+            padding: 1.2rem 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 1rem;
+            border: 1px solid var(--accent);
+        }
+        .total-card i {
+            color: var(--secondary);
+            font-size: 1.5rem;
+        }
+
+        /* CCMAS & BBMAS Dropdown Buttons (inside curriculum section) */
+        .standards-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0 3rem;
+        }
+        .dropdown-btn {
+            background: var(--gradient-purple);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+        }
+        .dropdown-btn.bbmas {
+            background: var(--gradient-blue);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+        }
+        .dropdown-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+        }
+        .dropdown-btn i {
+            transition: transform 0.3s;
+        }
+        .dropdown-btn.active i {
+            transform: rotate(180deg);
+        }
+        .dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin: 1rem 0 2rem;
+            background: white;
+            border-radius: 30px;
+            padding: 0 1.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        .dropdown-content.show {
+            max-height: 2000px; /* large enough */
+            padding: 1.5rem;
+        }
+        .course-mini-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .course-mini-card {
+            background: var(--accent-light);
+            border-radius: 16px;
+            padding: 1rem;
+            border-left: 4px solid var(--secondary);
+            font-size: 0.95rem;
+            transition: transform 0.2s;
+        }
+        .course-mini-card:hover {
+            transform: translateX(5px);
+            background: linear-gradient(145deg, #f0f9ff, #ffffff);
+        }
+        .course-mini-code {
+            font-weight: 700;
+            color: var(--secondary);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        .course-mini-title {
+            color: var(--primary);
+            font-weight: 500;
+        }
+        .electives-tag-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+        .elective-mini-tag {
+            background: var(--gradient-blue);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(6,182,212,0.3);
+        }
+
+        /* Why Choose Us */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .why-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border: 1px solid rgba(6,182,212,0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .why-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 40px rgba(245,158,11,0.1);
+        }
+        .why-number-badge {
+            background: var(--secondary);
+            color: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+        }
+        .why-icon {
+            font-size: 2.2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .why-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+        .why-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Specializations / Career sections */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border: 1px solid rgba(6,182,212,0.1);
+            text-align: center;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 40px rgba(245,158,11,0.1);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        .feature-card p {
+            color: var(--text-light);
+        }
+
+        /* Electives & CTA */
+        .electives-box {
+            background: var(--accent-light);
+            border-radius: 30px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+        .electives-box h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        .electives-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .elective-tag {
+            background: white;
+            color: var(--primary);
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 500;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+        }
+        .cta-programs {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+            border-radius: 40px;
+            margin: 4rem 0;
+        }
+        .cta-programs h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .cta-programs .highlight {
+            color: var(--secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .program-hero h1 {
+                font-size: 2.5rem;
+            }
+            .tabs {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .tab-btn {
+                width: 100%;
+            }
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="mainHeader">
+        <div class="container header-flex">
+            <div class="logo-container">
+                <img src="pictures/chrisland logo.jpeg" alt="Chrisland University Logo">
+                <div class="logo-text">
+                    <h1>Chrisland University</h1>
+                    <span>Software Engineering</span>
+                </div>
+            </div>
+            <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="programs.html" class="active">Programs</a>
+                <a href="admission.html">Admission</a>
+                <a href="handbook.html">Handbook</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="program-hero">
+            <div class="container">
+                <h1>B.Sc. <span class="highlight">Software Engineering</span></h1>
+                <p>Comprehensive curriculum designed to meet CCMAS & BBMAS global standards</p>
+            </div>
+        </section>
+
+        <section style="padding: 2rem 0 0;">
+            <div class="container">
+                <div class="overview-card">
+                    <div class="overview-grid">
+                        <div class="overview-item">
+                            <div class="overview-icon"><i class="fas fa-clock"></i></div>
+                            <h3>Duration</h3>
+                            <p>4 Years (Full‑time)</p>
+                        </div>
+                        <div class="overview-item">
+                            <div class="overview-icon"><i class="fas fa-book"></i></div>
+                            <h3>Total Credits</h3>
+                            <p>144 (UTME) / 108 (Direct Entry)</p>
+                        </div>
+                        <div class="overview-item">
+                            <div class="overview-icon"><i class="fas fa-layer-group"></i></div>
+                            <h3>Semesters</h3>
+                            <p>8 Semesters + SIWES</p>
+                        </div>
+                        <div class="overview-item">
+                            <div class="overview-icon"><i class="fas fa-check-circle"></i></div>
+                            <h3>Accreditation</h3>
+                            <p>NUC & CCMAS Compliant</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="background: var(--accent-light); padding: 2rem 0 4rem;">
+            <div class="container">
+                <h2 class="section-title">Why Choose Software Engineering at Chrisland?</h2>
+                <div class="why-grid">
+                    <div class="why-card">
+                        <div class="why-number-badge">1</div>
+                        <div class="why-icon"><i class="fas fa-briefcase"></i></div>
+                        <h3>Industry-Relevant Curriculum</h3>
+                        <p>Designed with input from tech industry leaders to ensure you learn the skills employers need.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-number-badge">2</div>
+                        <div class="why-icon"><i class="fas fa-flask"></i></div>
+                        <h3>Hands-On Learning</h3>
+                        <p>Practical labs, projects, and SIWES internship give you real-world experience.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-number-badge">3</div>
+                        <div class="why-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <h3>Expert Faculty</h3>
+                        <p>Learn from professors with Ph.D. degrees and years of industry experience.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-number-badge">4</div>
+                        <div class="why-icon"><i class="fas fa-microscope"></i></div>
+                        <h3>Modern Facilities</h3>
+                        <p>Access to state-of-the-art labs, cloud environments, and software tools.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0;">
+            <div class="container">
+                <h2 class="section-title">Specialization Tracks</h2>
+                <p class="section-subtitle">Tailor your degree to your interests with our elective-rich curriculum.</p>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                        <h3>Artificial Intelligence</h3>
+                        <p>Machine learning, deep learning, NLP, and computer vision.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-cloud"></i></div>
+                        <h3>Cloud Computing</h3>
+                        <p>AWS, Azure, Google Cloud, distributed systems, and DevOps.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h3>Mobile Development</h3>
+                        <p>Android, iOS, cross-platform frameworks (Flutter, React Native).</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Cybersecurity</h3>
+                        <p>Network security, cryptography, ethical hacking, secure coding.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <h2 class="section-title">Curriculum by Level</h2>
+                <p class="section-subtitle">Explore our detailed curriculum below – plus CCMAS core and BBMAS electives.</p>
+
+                <!-- CCMAS & BBMAS Dropdown Buttons -->
+                <div class="standards-row">
+                    <button class="dropdown-btn" id="ccmasBtn" onclick="toggleDropdown('ccmas')">
+                        <span>📘 CCMAS Core Courses</span> <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <button class="dropdown-btn bbmas" id="bbmasBtn" onclick="toggleDropdown('bbmas')">
+                        <span>🔹 BBMAS Electives</span> <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+
+                <!-- CCMAS Dropdown Content -->
+                <div class="dropdown-content" id="ccmasDropdown">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem;">Core Courses (All Levels)</h3>
+                    <div class="course-mini-grid">
+                        <!-- 100 Level -->
+                        <div class="course-mini-card"><span class="course-mini-code">CSC 101</span> <span class="course-mini-title">Intro to Computing</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">CHM 101</span> <span class="course-mini-title">General Chemistry I</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">CHM 103</span> <span class="course-mini-title">Chemistry Lab I</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 101</span> <span class="course-mini-title">English I</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 107</span> <span class="course-mini-title">Library & ICT</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 111</span> <span class="course-mini-title">Music</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">MTH 101</span> <span class="course-mini-title">Math I</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">PHY 101</span> <span class="course-mini-title">Physics I</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">PHY 107</span> <span class="course-mini-title">Physics Lab I</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 102</span> <span class="course-mini-title">Programming I</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 104</span> <span class="course-mini-title">Web Tech</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">CHM 102</span> <span class="course-mini-title">Chemistry II</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">CHM 104</span> <span class="course-mini-title">Chemistry Lab II</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 102</span> <span class="course-mini-title">English II</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 106</span> <span class="course-mini-title">Logic & Philosophy</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 110</span> <span class="course-mini-title">Health Issues</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">MTH 102</span> <span class="course-mini-title">Math II</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">PHY 102</span> <span class="course-mini-title">Physics II</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">PHY 108</span> <span class="course-mini-title">Physics Lab II</span></div>
+                        <!-- 200 Level -->
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 201</span> <span class="course-mini-title">Intro SE</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 203</span> <span class="course-mini-title">Web Apps</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 205</span> <span class="course-mini-title">Req & Design</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 207</span> <span class="course-mini-title">OS</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">MAT 205</span> <span class="course-mini-title">Linear Algebra</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 205</span> <span class="course-mini-title">Entrepreneurship I</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 207</span> <span class="course-mini-title">Nigeria Culture</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 209</span> <span class="course-mini-title">Ethics</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">CSC 204</span> <span class="course-mini-title">Data Structures</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">CSC 208</span> <span class="course-mini-title">Discrete Structure</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 204</span> <span class="course-mini-title">Prog II</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 206</span> <span class="course-mini-title">Logic</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 208</span> <span class="course-mini-title">SE Process</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 202</span> <span class="course-mini-title">Software Construction</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 206</span> <span class="course-mini-title">Entrepreneurship II</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 204</span> <span class="course-mini-title">Peace & Conflict</span></div>
+                        <!-- 300 Level -->
+                        <div class="course-mini-card"><span class="course-mini-code">CSC 301</span> <span class="course-mini-title">Structured Prog</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 305</span> <span class="course-mini-title">Testing & QA</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 309</span> <span class="course-mini-title">Comp Arch</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 311</span> <span class="course-mini-title">Algorithms</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 313</span> <span class="course-mini-title">Data Struct & Algo</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 315</span> <span class="course-mini-title">OOAD</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">MAT 315</span> <span class="course-mini-title">Operation Research</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">ENT 301</span> <span class="course-mini-title">Entrepreneurship III</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 399</span> <span class="course-mini-title">SIWES</span></div>
+                        <!-- 400 Level -->
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 403</span> <span class="course-mini-title">Professional Practice</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 409</span> <span class="course-mini-title">HCI</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">CSC 411</span> <span class="course-mini-title">Networks</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 401</span> <span class="course-mini-title">Config Mgt</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 405</span> <span class="course-mini-title">Prog Languages</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 407</span> <span class="course-mini-title">Research Meth</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 413</span> <span class="course-mini-title">Database</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">LDS 401</span> <span class="course-mini-title">Leadership</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 416</span> <span class="course-mini-title">Security</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 414</span> <span class="course-mini-title">Distributed/Cloud</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 404</span> <span class="course-mini-title">Project Mgt</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 406</span> <span class="course-mini-title">Economics</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 412</span> <span class="course-mini-title">Open Source</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 418</span> <span class="course-mini-title">Architecture</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">SEG 499</span> <span class="course-mini-title">Final Project</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">ENT 302</span> <span class="course-mini-title">Entrepreneurship Skills</span></div>
+                        <div class="course-mini-card"><span class="course-mini-code">GST 308</span> <span class="course-mini-title">French II</span></div>
+                    </div>
+                </div>
+
+                <!-- BBMAS Dropdown Content -->
+                <div class="dropdown-content" id="bbmasDropdown">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem;">Elective Courses</h3>
+                    <div class="electives-tag-grid">
+                        <span class="elective-mini-tag">Engineering Mobile Apps</span>
+                        <span class="elective-mini-tag">AI & Expert Systems</span>
+                        <span class="elective-mini-tag">Game Design</span>
+                        <span class="elective-mini-tag">Embedded Systems</span>
+                        <span class="elective-mini-tag">Fault Tolerant Computing</span>
+                        <span class="elective-mini-tag">Deep Learning</span>
+                        <span class="elective-mini-tag">Big Data</span>
+                        <span class="elective-mini-tag">Cloud Computing Security</span>
+                        <span class="elective-mini-tag">Software Engineering Models</span>
+                        <span class="elective-mini-tag">Formal Methods</span>
+                        <span class="elective-mini-tag">Net-Centric Computing</span>
+                        <span class="elective-mini-tag">Computer Graphics</span>
+                    </div>
+                    <p style="margin-top:1.5rem;"><em>See handbook for full list and prerequisites.</em></p>
+                </div>
+
+                <!-- Level Tabs -->
+                <div class="tabs-container">
+                    <div class="tabs" id="levelTabs">
+                        <button class="tab-btn active" data-level="100">100 Level</button>
+                        <button class="tab-btn" data-level="200">200 Level</button>
+                        <button class="tab-btn" data-level="300">300 Level</button>
+                        <button class="tab-btn" data-level="400">400 Level</button>
+                    </div>
+
+                    <!-- 100 Level -->
+                    <div id="level100" class="tab-pane active">
+                        <div class="semester-block">
+                            <h3 class="semester-title"><i class="fas fa-sun"></i> First Semester</h3>
+                            <div class="course-grid">
+                                <div class="course-card"><span class="course-code">CSC 101</span><span class="course-title">Intro to Computing & Applications</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">CHM 101</span><span class="course-title">General Chemistry I</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">CHM 103</span><span class="course-title">General Chemistry Lab I</span><span class="course-units"><i class="fas fa-cube"></i> 1 Unit</span></div>
+                                <div class="course-card"><span class="course-code">GST 101</span><span class="course-title">Communication in English I</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">GST 107</span><span class="course-title">Use of Library, Study Skills & ICT</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">GST 111</span><span class="course-title">Introduction to Music</span><span class="course-units"><i class="fas fa-cube"></i> 0 Units</span></div>
+                                <div class="course-card"><span class="course-code">MTH 101</span><span class="course-title">Elementary Mathematics I</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">PHY 101</span><span class="course-title">General Physics I</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">PHY 107</span><span class="course-title">General Physics Lab I</span><span class="course-units"><i class="fas fa-cube"></i> 1 Unit</span></div>
+                            </div>
+                            <div class="total-card"><i class="fas fa-calculator"></i> Total Units: 18</div>
+                        </div>
+                        <div class="semester-block">
+                            <h3 class="semester-title"><i class="fas fa-moon"></i> Second Semester</h3>
+                            <div class="course-grid">
+                                <div class="course-card"><span class="course-code">SEG 102</span><span class="course-title">Principles of Programming I</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 104</span><span class="course-title">Introduction to Web Technologies</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">CHM 102</span><span class="course-title">General Chemistry II</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">CHM 104</span><span class="course-title">General Chemistry Lab II</span><span class="course-units"><i class="fas fa-cube"></i> 1 Unit</span></div>
+                                <div class="course-card"><span class="course-code">GST 102</span><span class="course-title">Communication in English II</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">GST 106</span><span class="course-title">Logic, Philosophy & Human Existence</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">GST 110</span><span class="course-title">Contemporary Health Issues</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">MTH 102</span><span class="course-title">Elementary Mathematics II</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">PHY 102</span><span class="course-title">General Physics II</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">PHY 108</span><span class="course-title">General Physics Lab II</span><span class="course-units"><i class="fas fa-cube"></i> 1 Unit</span></div>
+                            </div>
+                            <div class="total-card"><i class="fas fa-calculator"></i> Total Units: 22</div>
+                        </div>
+                    </div>
+
+                    <!-- 200 Level -->
+                    <div id="level200" class="tab-pane">
+                        <div class="semester-block">
+                            <h3 class="semester-title"><i class="fas fa-sun"></i> First Semester</h3>
+                            <div class="course-grid">
+                                <div class="course-card"><span class="course-code">SEG 201</span><span class="course-title">Intro to Software Engineering</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 203</span><span class="course-title">Web Applications Development</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 205</span><span class="course-title">Software Requirements & Design</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 207</span><span class="course-title">Principles of Operating Systems</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">MAT 205</span><span class="course-title">Linear Algebra I</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">GST 205</span><span class="course-title">Entrepreneurship Studies I</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">GST 207</span><span class="course-title">Nigeria's People, Culture...</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">GST 209</span><span class="course-title">Morality, Religion, Ethics</span><span class="course-units"><i class="fas fa-cube"></i> 1 Unit</span></div>
+                                <div class="course-card"><span class="course-code">GST 211</span><span class="course-title">Instrumentation in Music</span><span class="course-units"><i class="fas fa-cube"></i> 0 Units</span></div>
+                            </div>
+                            <div class="total-card"><i class="fas fa-calculator"></i> Total Units: 17</div>
+                        </div>
+                        <div class="semester-block">
+                            <h3 class="semester-title"><i class="fas fa-moon"></i> Second Semester</h3>
+                            <div class="course-grid">
+                                <div class="course-card"><span class="course-code">CSC 204</span><span class="course-title">Fundamentals of Data Structures</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">CSC 208</span><span class="course-title">Discrete Structure</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 204</span><span class="course-title">Principles of Programming II</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 206</span><span class="course-title">Logic & Its Application</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 208</span><span class="course-title">Software Engineering Process</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 202</span><span class="course-title">Software Construction</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">GST 206</span><span class="course-title">Entrepreneurship Studies II</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">GST 204</span><span class="course-title">Peace & Conflict Resolution</span><span class="course-units"><i class="fas fa-cube"></i> 1 Unit</span></div>
+                            </div>
+                            <div class="total-card"><i class="fas fa-calculator"></i> Total Units: 19</div>
+                        </div>
+                    </div>
+
+                    <!-- 300 Level -->
+                    <div id="level300" class="tab-pane">
+                        <div class="semester-block">
+                            <h3 class="semester-title"><i class="fas fa-sun"></i> First Semester</h3>
+                            <div class="course-grid">
+                                <div class="course-card"><span class="course-code">CSC 301</span><span class="course-title">Structured Programming</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 305</span><span class="course-title">Software Testing & QA</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 309</span><span class="course-title">Computer Architecture</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 311</span><span class="course-title">Design & Analysis of Algorithms</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 313</span><span class="course-title">Data Structures & Algorithms</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 315</span><span class="course-title">Object-Oriented Analysis & Design</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">MAT 315</span><span class="course-title">Operation Research I</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">ENT 301</span><span class="course-title">Entrepreneurship III</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                            </div>
+                            <div class="total-card"><i class="fas fa-calculator"></i> Total Units: 21</div>
+                        </div>
+                        <div class="semester-block">
+                            <h3 class="semester-title"><i class="fas fa-briefcase"></i> Second Semester: SIWES</h3>
+                            <div class="course-grid">
+                                <div class="course-card"><span class="course-code">SEG 399</span><span class="course-title">Student Industrial Work Experience Scheme</span><span class="course-units"><i class="fas fa-cube"></i> 16 Units</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 400 Level -->
+                    <div id="level400" class="tab-pane">
+                        <div class="semester-block">
+                            <h3 class="semester-title"><i class="fas fa-sun"></i> First Semester</h3>
+                            <div class="course-grid">
+                                <div class="course-card"><span class="course-code">SEG 403</span><span class="course-title">Software Engineering Professional Practice</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 409</span><span class="course-title">Human Computer Interaction</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">CSC 411</span><span class="course-title">Computer Networks & Comm</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 401</span><span class="course-title">Software Configuration Management</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 405</span><span class="course-title">Concepts of Prog Languages</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 407</span><span class="course-title">Research Methodology</span><span class="course-units"><i class="fas fa-cube"></i> 1 Unit</span></div>
+                                <div class="course-card"><span class="course-code">SEG 413</span><span class="course-title">Database Systems</span><span class="course-units"><i class="fas fa-cube"></i> 3 Units</span></div>
+                                <div class="course-card"><span class="course-code">LDS 401</span><span class="course-title">Leadership Studies</span><span class="course-units"><i class="fas fa-cube"></i> 1 Unit</span></div>
+                            </div>
+                            <div class="total-card"><i class="fas fa-calculator"></i> Total Units: 17</div>
+                        </div>
+                        <div class="semester-block">
+                            <h3 class="semester-title"><i class="fas fa-moon"></i> Second Semester</h3>
+                            <div class="course-grid">
+                                <div class="course-card"><span class="course-code">SEG 416</span><span class="course-title">Software Engineering Security</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 414</span><span class="course-title">Distributed, Parallel & Cloud</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 404</span><span class="course-title">Software Project Management</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 406</span><span class="course-title">Software Engineering Economics</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 412</span><span class="course-title">Open Source Development</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 418</span><span class="course-title">Software Architecture & Design</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">SEG 499</span><span class="course-title">Final Year Project</span><span class="course-units"><i class="fas fa-cube"></i> 6 Units</span></div>
+                                <div class="course-card"><span class="course-code">ENT 302</span><span class="course-title">Entrepreneurship Skills</span><span class="course-units"><i class="fas fa-cube"></i> 2 Units</span></div>
+                                <div class="course-card"><span class="course-code">GST 308</span><span class="course-title">French II</span><span class="course-units"><i class="fas fa-cube"></i> 1 Unit</span></div>
+                            </div>
+                            <div class="total-card"><i class="fas fa-calculator"></i> Total Units: 21</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="background: var(--accent-light); padding: 4rem 0;">
+            <div class="container">
+                <h2 class="section-title">Career Opportunities</h2>
+                <p class="section-subtitle">Our graduates are prepared for a wide range of roles in the tech industry.</p>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-laptop-code"></i></div>
+                        <h3>Software Developer</h3>
+                        <p>Design, build, and maintain applications for web, mobile, or desktop.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <h3>Cloud Architect</h3>
+                        <p>Design and manage cloud infrastructure and services.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Security Analyst</h3>
+                        <p>Protect systems from cyber threats and ensure data security.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-database"></i></div>
+                        <h3>Data Scientist</h3>
+                        <p>Analyze large datasets to extract insights and drive decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 2rem 0;">
+            <div class="container">
+                <div class="electives-box">
+                    <h3>Elective Courses</h3>
+                    <p>Students can choose from a wide range of electives to tailor their degree.</p>
+                    <div class="electives-grid">
+                        <span class="elective-tag">Engineering Mobile Apps</span>
+                        <span class="elective-tag">AI & Expert Systems</span>
+                        <span class="elective-tag">Game Design</span>
+                        <span class="elective-tag">Embedded Systems</span>
+                        <span class="elective-tag">Fault Tolerant Computing</span>
+                        <span class="elective-tag">Deep Learning</span>
+                        <span class="elective-tag">Big Data</span>
+                        <span class="elective-tag">Cloud Computing Security</span>
+                    </div>
+                    <p style="margin-top:1.5rem;"><em>See handbook for full list and prerequisites.</em></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-programs">
+            <div class="container">
+                <h2>Ready to <span class="highlight">start your journey?</span></h2>
+                <p style="margin-bottom:2rem; font-size:1.2rem;">Apply now and become part of a vibrant community.</p>
+                <a href="https://chrislanduniversity.edu.ng/" target="_blank" class="btn">Apply Now</a>
+                <a href="handbook.html" class="btn btn-outline" style="margin-left:1rem;">View Handbook</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <img src="pictures/chrisland logo.jpeg" alt="Chrisland University Logo">
+                        <div>
+                            <h3>Chrisland University</h3>
+                            <span>Software Engineering</span>
+                        </div>
+                    </div>
+                    <p><i class="fas fa-map-marker-alt"></i> Abeokuta, Ogun State, Nigeria</p>
+                    <p><i class="fas fa-phone"></i> 08135762586, 08023364530, 09035166582</p>
+                    <p><i class="fas fa-envelope"></i>info@chrislanduniversity.edu.ng</p>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: white; margin-bottom: 1rem;">Quick Links</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="programs.html">Academic Programs</a>
+                    <a href="admission.html">Admissions</a>
+                    <a href="handbook.html">Student Handbook</a>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: white; margin-bottom: 1rem;">Follow Us</h4>
+                    <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
+                    <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Chrisland University. All rights reserved. Software Engineering Department.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Tabs functionality
+        const tabs = document.querySelectorAll('.tab-btn');
+        const panes = document.querySelectorAll('.tab-pane');
+        tabs.forEach(btn => {
+            btn.addEventListener('click', function() {
+                tabs.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                panes.forEach(p => p.classList.remove('active'));
+                const level = this.dataset.level;
+                document.getElementById('level' + level).classList.add('active');
+            });
+        });
+
+        // Dropdown toggles
+        function toggleDropdown(type) {
+            const dropdown = document.getElementById(type + 'Dropdown');
+            const btn = document.getElementById(type + 'Btn');
+            dropdown.classList.toggle('show');
+            btn.classList.toggle('active');
+        }
+
+        // Header hide on scroll
+        let lastScrollTop = 0;
+        const header = document.getElementById('mainHeader');
+        const scrollThreshold = 10;
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (Math.abs(scrollTop - lastScrollTop) <= scrollThreshold) return;
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                header.classList.add('header-hidden');
+            } else {
+                header.classList.remove('header-hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+</html>
