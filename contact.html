@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact – Software Engineering | Chrisland University</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Inter", sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background-color: #f9fafc;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        :root {
+            --primary: #1A2B4C;
+            --secondary: #F59E0B;
+            --accent: #06B6D4;
+            --accent-light: #f0f9ff;
+            --gray-light: #e2e8f0;
+            --text-dark: #1e293b;
+            --text-light: #475569;
+            --gradient-start: #1A2B4C;
+            --gradient-end: #2C3E6B;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header (same as other pages) */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .header-hidden { transform: translateY(-100%); }
+        .header-flex {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .logo-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+        .logo-container img {
+            height: 50px;
+            width: auto;
+            border-radius: 4px;
+        }
+        .logo-text h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-top: -2px;
+            color: white;
+        }
+        .logo-text span {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--secondary);
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.2rem;
+            font-weight: 500;
+            margin-top: 0.3rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary);
+            text-shadow: 0 0 8px rgba(245,158,11,0.5);
+        }
+        .hamburger {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            margin-top: 0.3rem;
+        }
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 1.2rem;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary);
+                padding: 2rem;
+                border-top: 1px solid #2C3E6B;
+                margin-top: 0;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a::after { display: none; }
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: 5rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .footer-logo img { height: 40px; width: auto; border-radius: 4px; }
+        .footer-logo h3 { font-size: 1.3rem; font-weight: 600; color: white; }
+        .footer-logo span { font-size: 0.75rem; color: var(--secondary); display: block; }
+        .footer-col p, .footer-col a {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: block;
+            margin: 0.5rem 0;
+        }
+        .footer-col a:hover { color: var(--secondary); }
+        .footer-col i { margin-right: 0.5rem; color: var(--secondary); }
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #2C3E6B;
+            color: #94a3b8;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: var(--primary);
+            font-weight: 600;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(245,158,11,0.3);
+        }
+
+        /* Contact Hero */
+        .contact-hero {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .contact-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+        .contact-hero .highlight { color: var(--secondary); }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Contact Split Layout */
+        .contact-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+        /* Cards */
+        .info-card, .form-card {
+            background: white;
+            border-radius: 40px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border: 1px solid rgba(6,182,212,0.1);
+        }
+        .info-card h2, .form-card h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .info-card h2 i, .form-card h2 i { color: var(--secondary); }
+
+        /* Contact details */
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .contact-detail i {
+            width: 45px;
+            height: 45px;
+            background: var(--accent-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-size: 1.3rem;
+            transition: 0.3s;
+        }
+        .contact-detail:hover i {
+            background: var(--secondary);
+            color: white;
+        }
+        .contact-detail span {
+            color: var(--text-light);
+            flex: 1;
+        }
+        .social-contact {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+        .social-contact a {
+            color: var(--primary);
+            background: var(--accent-light);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .social-contact a:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Map container - bigger */
+        .map-container {
+            margin-top: 2rem;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            height: 350px; /* increased from 250px */
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        .input-icon {
+            position: relative;
+        }
+        .input-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        .input-icon input,
+        .input-icon textarea {
+            width: 100%;
+            padding: 1rem 1rem 1rem 2.8rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 30px;
+            font-family: "Inter", sans-serif;
+            font-size: 1rem;
+            transition: 0.3s;
+            background: white;
+        }
+        .input-icon textarea {
+            padding-top: 1rem;
+            min-height: 120px;
+            resize: vertical;
+        }
+        .input-icon input:focus,
+        .input-icon textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(245,158,11,0.1);
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .contact-split {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="mainHeader">
+        <div class="container header-flex">
+            <div class="logo-container">
+                <img src="pictures/chrisland logo.jpeg" alt="Chrisland University Logo">
+                <div class="logo-text">
+                    <h1>Chrisland University</h1>
+                    <span>Software Engineering</span>
+                </div>
+            </div>
+            <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="programs.html">Programs</a>
+                <a href="admission.html">Admission</a>
+                <a href="handbook.html">Handbook</a>
+                <a href="contact.html" class="active">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="contact-hero">
+            <div class="container">
+                <h1>Get in <span class="highlight">Touch</span></h1>
+                <p>We’d love to hear from you. Send us a message and we’ll respond as soon as possible.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="contact-split">
+                <!-- Left: Contact Form (moved to left) -->
+                <div class="form-card">
+                    <h2><i class="fas fa-paper-plane"></i> Send a Message</h2>
+                    <form action="#" method="post">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <div class="input-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="name" placeholder="John Doe" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <div class="input-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <div class="input-icon">
+                                <i class="fas fa-tag"></i>
+                                <input type="text" id="subject" placeholder="Inquiry about programs">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <div class="input-icon">
+                                <i class="fas fa-comment"></i>
+                                <textarea id="message" placeholder="Your message..." required></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-submit"><i class="fas fa-paper-plane"></i> Send Message</button>
+                    </form>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light); text-align: center;">
+                        * This is a static demo – messages are not actually sent.
+                    </p>
+                </div>
+
+                <!-- Right: Info & Map (moved to right, map bigger) -->
+                <div class="info-card">
+                    <h2><i class="fas fa-map-marker-alt"></i> Visit Us</h2>
+                    <div class="contact-detail">
+                        <i class="fas fa-map-pin"></i>
+                        <span>PMB 110101, Chrisland University, Abeokuta, Ogun State, Nigeria</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>+234 813 576 2586, +234 802 336 4530, +234 903 516 6582, +234 817 955 2479</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-envelope"></i>
+                        <span>chrislandadmin@chrislanduniversity.edu.ng</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@chrislanduniversity.edu.ng</span>
+                    </div>
+                    <div class="social-contact">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <!-- Map - now larger -->
+                    <div class="map-container">
+                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.8632316542703!2d3.3966465759666185!3d7.14180991566744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103a356dd3b47bd1%3A0x763f92c3df2f5886!2sChrisland%20University%2C%20Abeokuta!5e0!3m2!1sen!2sng!4v1772790344172!5m2!1sen!2sng" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <img src="pictures/chrisland logo.jpeg" alt="Chrisland University Logo">
+                        <div>
+                            <h3>Chrisland University</h3>
+                            <span>Software Engineering</span>
+                        </div>
+                    </div>
+                    <p><i class="fas fa-map-marker-alt"></i> Abeokuta, Ogun State, Nigeria</p>
+                    <p><i class="fas fa-phone"></i> +234 800 123 4567</p>
+                    <p><i class="fas fa-envelope"></i> se@chrislanduniversity.edu.ng</p>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: white; margin-bottom: 1rem;">Quick Links</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="programs.html">Academic Programs</a>
+                    <a href="admission.html">Admissions</a>
+                    <a href="handbook.html">Student Handbook</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: white; margin-bottom: 1rem;">Follow Us</h4>
+                    <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
+                    <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Chrisland University. All rights reserved. Software Engineering Department.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Header hide on scroll
+        let lastScrollTop = 0;
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (Math.abs(scrollTop - lastScrollTop) <= 10) return;
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                header.classList.add('header-hidden');
+            } else {
+                header.classList.remove('header-hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+</html>
